@@ -12,8 +12,6 @@ const RoomCard = ({ room, currentGuestName, currentGuest, onQuickCheckIn, onStat
   };
 
   const getGuestTooltip = (guest) => {
-
-  const getGuestTooltip = (guest) => {
     if (!guest) return '';
     
     const checkInDate = guest.checkInDate ? new Date(guest.checkInDate).toLocaleDateString() : 'N/A';
@@ -69,7 +67,7 @@ const RoomCard = ({ room, currentGuestName, currentGuest, onQuickCheckIn, onStat
           )}
 
           <div className="flex space-x-1">
-{room.status === 'occupied' && (
+            {room.status === 'occupied' && (
               <Button
                 onClick={handleCheckout}
                 className="flex-1 bg-warning text-white text-xs hover:bg-warning/90"
@@ -106,12 +104,8 @@ const RoomCard = ({ room, currentGuestName, currentGuest, onQuickCheckIn, onStat
             )}
           </div>
         </div>
-</Card>
+      </Card>
     </>
-  );
-};
-
-export default RoomCard;
   );
 };
 
