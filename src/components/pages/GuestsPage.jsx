@@ -241,10 +241,10 @@ const [selectedGuest, setSelectedGuest] = useState(null);
             onEdit={handleEditGuest}
             onDelete={handleDeleteGuest}
           />
-        </Modal>
-        </Modal>
+</Modal>
       )}
-)}
+
+      {showEditGuestModal && (
 
       {showEditGuestModal && (
         <Modal title="Edit Guest" onClose={() => setShowEditGuestModal(false)} className="max-w-md">
