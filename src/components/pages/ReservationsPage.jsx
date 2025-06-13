@@ -25,7 +25,12 @@ const [newReservation, setNewReservation] = useState({
     checkIn: '',
     checkOut: '',
     status: 'confirmed',
-    notes: ''
+    notes: '',
+    paymentMethod: '',
+    discountAmount: '',
+    extraCharges: '',
+    extraChargesDescription: '',
+    paymentStatus: 'pending'
   });
   const [editReservation, setEditReservation] = useState(null);
   const [showEditReservationModal, setShowEditReservationModal] = useState(false);
@@ -54,14 +59,22 @@ const [newReservation, setNewReservation] = useState({
     }
   };
 
-  const handleCreateReservation = async (e) => {
+const handleCreateReservation = async (e) => {
     e.preventDefault();
     try {
-      const room = rooms.find(r => r.id === newReservation.roomId);
+      const selectedRooms = rooms.filter(room => 
+        (newReservation.roomIds || []).includes(room.id)
+      );
+      const baseAmount = selectedRooms.reduce((total, room) => total + room.price, 0);
+      
       const reservation = await reservationService.create({
         ...newReservation,
         id: Date.now().toString(),
-        totalAmount: room?.price || 0
+        totalAmount: baseAmount,
+        additionalFees: parseFloat(newReservation.extraCharges) || 0,
+        discountAmount: parseFloat(newReservation.discountAmount) || 0,
+        paymentMethod: newReservation.paymentMethod,
+        paymentStatus: newReservation.paymentMethod === 'cash' ? 'paid' : 'pending'
       });
 
       setReservations([...reservations, reservation]);
@@ -72,9 +85,20 @@ const [newReservation, setNewReservation] = useState({
         checkIn: '',
         checkOut: '',
         status: 'confirmed',
-        notes: ''
+        notes: '',
+        paymentMethod: '',
+        discountAmount: '',
+        extraCharges: '',
+        extraChargesDescription: '',
+        paymentStatus: 'pending'
       });
-      toast.success('Reservation created successfully!');
+      
+      // Show invoice/receipt
+      if (reservation.paymentBreakdown) {
+        toast.success(`Reservation created! Total: $${reservation.paymentBreakdown.total.toFixed(2)}`);
+      } else {
+        toast.success('Reservation created successfully!');
+      }
     } catch (err) {
       toast.error('Failed to create reservation');
     }

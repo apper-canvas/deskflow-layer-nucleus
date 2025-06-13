@@ -31,13 +31,16 @@ const handleRoomSelection = (value) => {
     }));
   };
 
-  const getSelectedRooms = () => {
+const getSelectedRooms = () => {
     const roomIds = newReservation.roomIds || [];
     return rooms.filter(room => roomIds.includes(room.id));
   };
 
   const getTotalPrice = () => {
-    return getSelectedRooms().reduce((total, room) => total + room.price, 0);
+    const basePrice = getSelectedRooms().reduce((total, room) => total + room.price, 0);
+    const extraCharges = parseFloat(newReservation.extraCharges) || 0;
+    const discountAmount = parseFloat(newReservation.discountAmount) || 0;
+    return Math.max(0, basePrice + extraCharges - discountAmount);
   };
 return (
     <form onSubmit={onSubmit} className="space-y-6">
@@ -67,9 +70,9 @@ return (
           ))}
         </Select>
         
-        {getSelectedRooms().length > 0 && (
-          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-            <div className="flex justify-between items-center">
+{getSelectedRooms().length > 0 && (
+          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+            <div className="flex justify-between items-center mb-3">
               <span className="text-sm font-medium text-blue-900">
                 {getSelectedRooms().length} room{getSelectedRooms().length > 1 ? 's' : ''} selected
               </span>
@@ -77,8 +80,25 @@ return (
                 Total: ${getTotalPrice()}/night
               </span>
             </div>
-            <div className="mt-2 text-xs text-blue-700">
+            <div className="text-xs text-blue-700 mb-3">
               {getSelectedRooms().map(room => `Room ${room.number}`).join(', ')}
+            </div>
+            
+            {/* Payment Method Selection */}
+            <div className="border-t pt-3">
+              <FormField label="Payment Method" required>
+                <Select
+                  name="paymentMethod"
+                  value={newReservation.paymentMethod || ''}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select payment method</option>
+                  <option value="cash">Cash</option>
+                  <option value="card">Credit/Debit Card</option>
+                  <option value="upi">UPI</option>
+                </Select>
+              </FormField>
             </div>
           </div>
         )}
@@ -120,6 +140,43 @@ return (
           />
         </FormField>
       </div>
+
+      {/* Billing and Charges Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField label="Discount Amount ($)">
+          <Input
+            type="number"
+            name="discountAmount"
+            value={newReservation.discountAmount || ''}
+            onChange={handleInputChange}
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+          />
+        </FormField>
+        
+        <FormField label="Extra Charges ($)">
+          <Input
+            type="number"
+            name="extraCharges"
+            value={newReservation.extraCharges || ''}
+            onChange={handleInputChange}
+            placeholder="Room service, mini bar, etc."
+            min="0"
+            step="0.01"
+          />
+        </FormField>
+      </div>
+
+      <FormField label="Extra Charges Description">
+        <TextArea
+          name="extraChargesDescription"
+          value={newReservation.extraChargesDescription || ''}
+          onChange={handleInputChange}
+          placeholder="Describe additional charges (room service, mini bar, etc.)"
+          rows={2}
+        />
+      </FormField>
 
       <FormField label="Special Requests" className="mb-0">
         <TextArea

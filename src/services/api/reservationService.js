@@ -24,26 +24,37 @@ class ReservationService {
 async create(reservationData) {
     await delay(400);
     
-    // Calculate payment breakdown
+    // Calculate payment breakdown with discounts and extras
     const roomCost = parseFloat(reservationData.totalAmount) || 0;
     const additionalFees = parseFloat(reservationData.additionalFees) || 0;
-    const taxes = roomCost * 0.12;
+    const discountAmount = parseFloat(reservationData.discountAmount) || 0;
+    const taxes = (roomCost + additionalFees - discountAmount) * 0.12;
     const serviceFee = 25.00;
-    const finalTotal = roomCost + additionalFees + taxes + serviceFee;
+    const subtotal = roomCost + additionalFees - discountAmount;
+    const finalTotal = Math.max(0, subtotal + taxes + serviceFee);
     
     const newReservation = {
       ...reservationData,
       id: Date.now().toString(),
       // Ensure roomIds is always an array
       roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean),
-      // Add payment breakdown
+      // Add comprehensive payment breakdown
       paymentBreakdown: {
         roomCost: roomCost,
         additionalFees: additionalFees,
+        discountAmount: discountAmount,
+        subtotal: subtotal,
         taxes: taxes,
         serviceFee: serviceFee,
         total: finalTotal
       },
+      // Payment processing fields
+      paymentMethod: reservationData.paymentMethod,
+      paymentStatus: reservationData.paymentStatus || 'pending',
+      paymentDate: reservationData.paymentMethod === 'cash' ? new Date().toISOString() : null,
+      // Invoice details
+      invoiceNumber: `INV-${Date.now()}`,
+      invoiceDate: new Date().toISOString(),
       totalAmount: finalTotal,
       // Add timeline fields
       timeline: {
@@ -64,25 +75,34 @@ async update(id, reservationData) {
       throw new Error('Reservation not found');
     }
     
-    // Calculate payment breakdown for updates
+    // Calculate payment breakdown for updates with discounts and extras
     const roomCost = parseFloat(reservationData.totalAmount) || 0;
     const additionalFees = parseFloat(reservationData.additionalFees) || 0;
-    const taxes = roomCost * 0.12;
+    const discountAmount = parseFloat(reservationData.discountAmount) || 0;
+    const taxes = (roomCost + additionalFees - discountAmount) * 0.12;
     const serviceFee = 25.00;
-    const finalTotal = roomCost + additionalFees + taxes + serviceFee;
+    const subtotal = roomCost + additionalFees - discountAmount;
+    const finalTotal = Math.max(0, subtotal + taxes + serviceFee);
     
     const updatedData = {
       ...reservationData,
       // Ensure roomIds is always an array for updates
       roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean),
-      // Update payment breakdown
+      // Update comprehensive payment breakdown
       paymentBreakdown: {
         roomCost: roomCost,
         additionalFees: additionalFees,
+        discountAmount: discountAmount,
+        subtotal: subtotal,
         taxes: taxes,
         serviceFee: serviceFee,
         total: finalTotal
       },
+      // Update payment processing fields
+      paymentMethod: reservationData.paymentMethod,
+      paymentStatus: reservationData.paymentStatus || this.reservations[index].paymentStatus,
+      paymentDate: reservationData.paymentStatus === 'paid' && !this.reservations[index].paymentDate ? 
+        new Date().toISOString() : this.reservations[index].paymentDate,
       totalAmount: finalTotal,
       // Update timeline fields
       timeline: {
