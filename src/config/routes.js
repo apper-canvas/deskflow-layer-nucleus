@@ -3,6 +3,7 @@ import DashboardPage from '@/components/pages/DashboardPage';
 import ReservationsPage from '@/components/pages/ReservationsPage';
 import RoomsPage from '@/components/pages/RoomsPage';
 import GuestsPage from '@/components/pages/GuestsPage';
+import ProfilePage from '@/components/pages/ProfilePage';
 import NotFoundPage from '@/components/pages/NotFoundPage';
 
 export const routes = {
@@ -34,12 +35,19 @@ component: ReservationsPage
     icon: 'Bed',
 component: RoomsPage
   },
-  guests: {
+guests: {
     id: 'guests',
     label: 'Guests',
     path: '/guests',
     icon: 'Users',
-component: GuestsPage
+    component: GuestsPage
+  },
+  profile: {
+    id: 'profile',
+    label: 'Profile',
+    path: '/profile',
+    icon: 'User',
+    component: ProfilePage
   }
 };
 

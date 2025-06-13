@@ -1,11 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import ApperIcon from '@/components/ApperIcon';
 import Text from '@/components/atoms/Text';
 import Button from '@/components/atoms/Button';
-
 const ProfileDropdown = ({ userName, userRole, showProfile, onToggle }) => {
-  return (
+  const navigate = useNavigate();
     <div className="relative">
       <button
         onClick={onToggle}
@@ -31,7 +31,10 @@ const ProfileDropdown = ({ userName, userRole, showProfile, onToggle }) => {
               <Text as="p" className="text-xs text-gray-500">{userRole}</Text>
             </div>
             <div className="py-2">
-              <Button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2 bg-transparent hover:bg-gray-50">
+<Button 
+                onClick={() => navigate('/profile')}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2 bg-transparent hover:bg-gray-50"
+              >
                 <ApperIcon name="User" className="w-4 h-4" />
                 <span>Profile</span>
               </Button>

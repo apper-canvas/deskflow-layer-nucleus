@@ -1,4 +1,5 @@
-export { default as guestService } from './api/guestService';
-export { default as reservationService } from './api/reservationService';
-export { default as roomService } from './api/roomService';
-export { default as notificationService } from './api/notificationService';
+export { guestService } from './api/guestService';
+export { reservationService } from './api/reservationService';
+export { roomService } from './api/roomService';
+export { notificationService } from './api/notificationService';
+export { userService } from './api/userService';
