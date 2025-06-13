@@ -5,19 +5,9 @@ import Input from '@/components/atoms/Input';
 import TextArea from '@/components/atoms/TextArea';
 
 const AddGuestForm = ({ newGuest, setNewGuest, onSubmit, onClose, isEdit = false }) => {
-  const handleInputChange = (e) => {
+const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith('address.')) {
-      setNewGuest(prev => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          [name.split('.')[1]]: value
-        }
-      }));
-    } else {
-      setNewGuest(prev => ({ ...prev, [name]: value }));
-    }
+    setNewGuest(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -39,24 +29,29 @@ const AddGuestForm = ({ newGuest, setNewGuest, onSubmit, onClose, isEdit = false
         <Input type="tel" name="phone" value={newGuest.phone} onChange={handleInputChange} required />
       </FormField>
 
-      <FormField label="ID Document Number" id="idDocument">
-        <Input type="text" name="idDocument" value={newGuest.idDocument} onChange={handleInputChange} placeholder="Driver's License, Passport, etc." required />
+<FormField label="Government ID Proof" id="governmentIdProof">
+        <Input type="text" name="governmentIdProof" value={newGuest.governmentIdProof} onChange={handleInputChange} placeholder="e.g., Driver's License, Passport, etc." required />
       </FormField>
 
-      <FormField label="Street Address" id="street">
-        <Input type="text" name="address.street" value={newGuest.address.street} onChange={handleInputChange} />
+      <FormField label="Address" id="address">
+        <Input type="text" name="address" value={newGuest.address} onChange={handleInputChange} placeholder="Full address" />
       </FormField>
 
-      <div className="grid grid-cols-2 gap-4">
-        <FormField label="City" id="city">
-          <Input type="text" name="address.city" value={newGuest.address.city} onChange={handleInputChange} />
-        </FormField>
-        <FormField label="State" id="state">
-          <Input type="text" name="address.state" value={newGuest.address.state} onChange={handleInputChange} />
-        </FormField>
-      </div>
-       {/* Optional: Add Zip Code and Country fields if needed for full address */}
+      <FormField label="Nationality" id="nationality">
+        <Input type="text" name="nationality" value={newGuest.nationality} onChange={handleInputChange} placeholder="e.g., American, Canadian, etc." />
+      </FormField>
 
+      <FormField label="Guest Type" id="guestType">
+        <select name="guestType" value={newGuest.guestType} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+          <option value="individual">Individual</option>
+          <option value="business">Business</option>
+          <option value="group">Group</option>
+        </select>
+      </FormField>
+
+      <FormField label="Special Preferences" id="specialPreferences">
+        <TextArea name="specialPreferences" value={newGuest.specialPreferences} onChange={handleInputChange} placeholder="Any special requests or preferences..." rows={3} />
+      </FormField>
       <div className="flex space-x-3 pt-4">
         <Button
           type="button"
@@ -70,7 +65,6 @@ const AddGuestForm = ({ newGuest, setNewGuest, onSubmit, onClose, isEdit = false
           className="flex-1 bg-primary text-white hover:bg-primary/90"
         >
           {isEdit ? 'Update Guest' : 'Add Guest'}
-          Add Guest
         </Button>
       </div>
     </form>

@@ -54,16 +54,28 @@ const GuestDetail = ({ guest, guestHistory, rooms }) => {
               <ApperIcon name="CreditCard" className="w-4 h-4 text-gray-400" />
               <Text as="span" className="text-sm text-gray-600">{guest.idDocument}</Text>
             </div>
-            {guest.address?.street && (
+{guest.address && (
               <div className="flex items-start space-x-3">
                 <ApperIcon name="MapPin" className="w-4 h-4 text-gray-400 mt-0.5" />
-                <div className="text-sm text-gray-600">
-                  <Text as="p">{guest.address.street}</Text>
-                  <Text as="p">
-                    {guest.address.city}, {guest.address.state} {guest.address.zipCode}
-                  </Text>
-                  {guest.address.country && <Text as="p">{guest.address.country}</Text>}
-                </div>
+                <Text as="span" className="text-sm text-gray-600">{guest.address}</Text>
+              </div>
+            )}
+            {guest.governmentIdProof && (
+              <div className="flex items-center space-x-3">
+                <ApperIcon name="FileText" className="w-4 h-4 text-gray-400" />
+                <Text as="span" className="text-sm text-gray-600">{guest.governmentIdProof}</Text>
+              </div>
+            )}
+            {guest.nationality && (
+              <div className="flex items-center space-x-3">
+                <ApperIcon name="Globe" className="w-4 h-4 text-gray-400" />
+                <Text as="span" className="text-sm text-gray-600">{guest.nationality}</Text>
+              </div>
+            )}
+            {guest.guestType && (
+              <div className="flex items-center space-x-3">
+                <ApperIcon name="Users" className="w-4 h-4 text-gray-400" />
+                <Text as="span" className="text-sm text-gray-600 capitalize">{guest.guestType}</Text>
               </div>
             )}
           </div>
@@ -98,17 +110,28 @@ const GuestDetail = ({ guest, guestHistory, rooms }) => {
         </div>
       </div>
 
-      {/* Preferences */}
-      {guest.preferences && guest.preferences.length > 0 && (
+{/* Preferences and Special Requests */}
+      {((guest.preferences && guest.preferences.length > 0) || guest.specialPreferences) && (
         <div className="mt-6 pt-6 border-t border-gray-200">
-          <Text as="h4" className="font-medium text-gray-900 mb-3">Preferences</Text>
-          <div className="flex flex-wrap gap-2">
-            {guest.preferences.map((pref, idx) => (
-              <Text as="span" key={idx} className="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">
-                {pref}
-              </Text>
-            ))}
-          </div>
+          <Text as="h4" className="font-medium text-gray-900 mb-3">Preferences & Special Requests</Text>
+          {guest.preferences && guest.preferences.length > 0 && (
+            <div className="mb-4">
+              <Text as="p" className="text-sm text-gray-600 mb-2">General Preferences:</Text>
+              <div className="flex flex-wrap gap-2">
+                {guest.preferences.map((pref, idx) => (
+                  <Text as="span" key={idx} className="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">
+                    {pref}
+                  </Text>
+                ))}
+              </div>
+            </div>
+          )}
+          {guest.specialPreferences && (
+            <div>
+              <Text as="p" className="text-sm text-gray-600 mb-2">Special Requests:</Text>
+              <Text as="p" className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">{guest.specialPreferences}</Text>
+            </div>
+          )}
         </div>
       )}
     </div>

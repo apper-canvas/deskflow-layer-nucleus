@@ -22,18 +22,16 @@ const GuestsPage = () => {
 const [selectedGuest, setSelectedGuest] = useState(null);
   const [editGuest, setEditGuest] = useState(null);
   const [showEditGuestModal, setShowEditGuestModal] = useState(false);
-  const [newGuest, setNewGuest] = useState({
+const [newGuest, setNewGuest] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    address: {
-      street: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: ''
-    },
+    address: '',
+    governmentIdProof: '',
+    nationality: '',
+    guestType: 'individual',
+    specialPreferences: '',
     idDocument: '',
     preferences: []
   });
@@ -72,18 +70,16 @@ const [selectedGuest, setSelectedGuest] = useState(null);
 
       setGuests([...guests, guest]);
       setShowNewGuestModal(false);
-      setNewGuest({
+setNewGuest({
         firstName: '',
         lastName: '',
         email: '',
         phone: '',
-        address: {
-          street: '',
-          city: '',
-          state: '',
-          zipCode: '',
-          country: ''
-        },
+        address: '',
+        governmentIdProof: '',
+        nationality: '',
+        guestType: 'individual',
+        specialPreferences: '',
         idDocument: '',
         preferences: []
       });
