@@ -126,5 +126,9 @@ async update(id, reservationData) {
     return true;
   }
 }
+}
 
-export default new ReservationService();
+const reservationServiceInstance = new ReservationService();
+
+export { reservationServiceInstance as reservationService };
+export default reservationServiceInstance;
