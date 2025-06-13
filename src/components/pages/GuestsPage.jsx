@@ -244,9 +244,7 @@ const [selectedGuest, setSelectedGuest] = useState(null);
 </Modal>
       )}
 
-      {showEditGuestModal && (
-
-      {showEditGuestModal && (
+{showEditGuestModal && (
         <Modal title="Edit Guest" onClose={() => setShowEditGuestModal(false)} className="max-w-md">
           <AddGuestForm
             newGuest={editGuest}
