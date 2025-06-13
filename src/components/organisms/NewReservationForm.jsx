@@ -106,17 +106,9 @@ return (
         {(!newReservation.roomIds || newReservation.roomIds.length === 0) && (
           <p className="mt-2 text-sm text-red-600">Please select at least one room</p>
         )}
-      </FormField>
+</FormField>
 
-<div className="grid grid-cols-2 gap-4">
-        <FormField label="Check-In Date" id="checkIn">
-          <Input type="date" name="checkIn" value={newReservation.checkIn} onChange={handleInputChange} required />
-        </FormField>
-        <FormField label="Check-Out Date" id="checkOut">
-          <Input type="date" name="checkOut" value={newReservation.checkOut} onChange={handleInputChange} required />
-        </FormField>
-      </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField label="Check-in Date" required>
           <Input
