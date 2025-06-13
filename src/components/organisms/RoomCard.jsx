@@ -6,11 +6,15 @@ import StatusTag from '@/components/atoms/StatusTag';
 import Card from '@/components/molecules/Card';
 import Modal from '@/components/molecules/Modal';
 const RoomCard = ({ room, currentGuestName, currentGuest, onQuickCheckIn, onStatusChange }) => {
-  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const handleCheckout = () => {
     setShowCheckoutModal(false);
     onStatusChange(room.id, 'cleaning');
+  };
+
+  const handleCheckoutClick = () => {
+    setShowCheckoutModal(true);
   };
 
   const getGuestTooltip = (guest) => {
