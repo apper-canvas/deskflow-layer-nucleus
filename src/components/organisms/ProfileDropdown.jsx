@@ -6,6 +6,8 @@ import Text from '@/components/atoms/Text';
 import Button from '@/components/atoms/Button';
 const ProfileDropdown = ({ userName, userRole, showProfile, onToggle }) => {
   const navigate = useNavigate();
+  
+  return (
     <div className="relative">
       <button
         onClick={onToggle}
