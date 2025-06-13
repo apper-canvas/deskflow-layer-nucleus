@@ -6,9 +6,31 @@ import Input from '@/components/atoms/Input';
 import TextArea from '@/components/atoms/TextArea';
 
 const NewReservationForm = ({ newReservation, setNewReservation, guests, rooms, onSubmit, onClose, isEdit = false }) => {
-  const handleInputChange = (e) => {
+const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewReservation(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleRoomSelection = (roomId) => {
+    setNewReservation(prev => {
+      const currentRoomIds = prev.roomIds || [];
+      const isSelected = currentRoomIds.includes(roomId);
+      
+      const updatedRoomIds = isSelected
+        ? currentRoomIds.filter(id => id !== roomId)
+        : [...currentRoomIds, roomId];
+      
+      return { ...prev, roomIds: updatedRoomIds };
+    });
+  };
+
+  const getSelectedRooms = () => {
+    const roomIds = newReservation.roomIds || [];
+    return rooms.filter(room => roomIds.includes(room.id));
+  };
+
+  const getTotalPrice = () => {
+    return getSelectedRooms().reduce((total, room) => total + room.price, 0);
   };
 
   return (
@@ -24,15 +46,49 @@ const NewReservationForm = ({ newReservation, setNewReservation, guests, rooms, 
         </Select>
       </FormField>
 
-      <FormField label="Room" id="roomId">
-        <Select name="roomId" value={newReservation.roomId} onChange={handleInputChange} required>
-          <option value="">Select a room</option>
+<FormField label="Select Rooms" id="rooms">
+        <div className="space-y-3">
           {rooms.filter(room => room.status === 'available').map(room => (
-            <option key={room.id} value={room.id}>
-              Room {room.number} - {room.type} (${room.price}/night)
-            </option>
+            <div key={room.id} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+              <input
+                type="checkbox"
+                id={`room-${room.id}`}
+                checked={(newReservation.roomIds || []).includes(room.id)}
+                onChange={() => handleRoomSelection(room.id)}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label htmlFor={`room-${room.id}`} className="ml-3 flex-1 cursor-pointer">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="font-medium text-gray-900">Room {room.number}</span>
+                    <span className="ml-2 text-sm text-gray-500">{room.type}</span>
+                  </div>
+                  <span className="font-semibold text-gray-900">${room.price}/night</span>
+                </div>
+              </label>
+            </div>
           ))}
-        </Select>
+        </div>
+        
+        {getSelectedRooms().length > 0 && (
+          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium text-blue-900">
+                {getSelectedRooms().length} room{getSelectedRooms().length > 1 ? 's' : ''} selected
+              </span>
+              <span className="text-lg font-bold text-blue-900">
+                Total: ${getTotalPrice()}/night
+              </span>
+            </div>
+            <div className="mt-2 text-xs text-blue-700">
+              {getSelectedRooms().map(room => `Room ${room.number}`).join(', ')}
+            </div>
+          </div>
+        )}
+        
+        {(!newReservation.roomIds || newReservation.roomIds.length === 0) && (
+          <p className="mt-2 text-sm text-red-600">Please select at least one room</p>
+        )}
       </FormField>
 
       <div className="grid grid-cols-2 gap-4">

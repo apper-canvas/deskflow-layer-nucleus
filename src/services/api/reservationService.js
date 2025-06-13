@@ -21,23 +21,30 @@ class ReservationService {
     return { ...reservation };
   }
 
-  async create(reservationData) {
+async create(reservationData) {
     await delay(400);
     const newReservation = {
       ...reservationData,
-      id: Date.now().toString()
+      id: Date.now().toString(),
+      // Ensure roomIds is always an array
+      roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean)
     };
     this.reservations.push(newReservation);
     return { ...newReservation };
   }
 
-  async update(id, reservationData) {
+async update(id, reservationData) {
     await delay(300);
     const index = this.reservations.findIndex(r => r.id === id);
     if (index === -1) {
       throw new Error('Reservation not found');
     }
-    this.reservations[index] = { ...this.reservations[index], ...reservationData };
+    const updatedData = {
+      ...reservationData,
+      // Ensure roomIds is always an array for updates
+      roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean)
+    };
+    this.reservations[index] = { ...this.reservations[index], ...updatedData };
     return { ...this.reservations[index] };
   }
 
