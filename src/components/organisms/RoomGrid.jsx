@@ -6,7 +6,7 @@ const RoomGrid = ({ rooms, guests, onQuickCheckIn, onStatusChange }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {rooms.map((room, index) => {
-        const currentGuest = guests.find(g => g.id === room.currentGuestId);
+const currentGuest = guests.find(g => g.id === room.currentGuestId);
         const currentGuestName = currentGuest ? `${currentGuest.firstName} ${currentGuest.lastName}` : '';
 
         return (
@@ -19,6 +19,7 @@ const RoomGrid = ({ rooms, guests, onQuickCheckIn, onStatusChange }) => {
             <RoomCard
               room={room}
               currentGuestName={currentGuestName}
+              currentGuest={currentGuest}
               onQuickCheckIn={onQuickCheckIn}
               onStatusChange={onStatusChange}
             />
