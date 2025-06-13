@@ -6,12 +6,12 @@ import StatusTag from '@/components/atoms/StatusTag';
 import Card from '@/components/molecules/Card';
 import Modal from '@/components/molecules/Modal';
 const RoomCard = ({ room, currentGuestName, currentGuest, onQuickCheckIn, onStatusChange }) => {
-const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const handleCheckout = () => {
-    setShowCheckoutModal(false);
     onStatusChange(room.id, 'cleaning');
   };
+
+  const getGuestTooltip = (guest) => {
 
   const getGuestTooltip = (guest) => {
     if (!guest) return '';
@@ -71,7 +71,7 @@ const [showCheckoutModal, setShowCheckoutModal] = useState(false);
           <div className="flex space-x-1">
 {room.status === 'occupied' && (
               <Button
-                onClick={() => room.status === 'occupied' && setShowCheckoutModal(true)}
+                onClick={handleCheckout}
                 className="flex-1 bg-warning text-white text-xs hover:bg-warning/90"
               >
                 Check Out
@@ -106,34 +106,12 @@ const [showCheckoutModal, setShowCheckoutModal] = useState(false);
             )}
           </div>
         </div>
-      </Card>
-
-      <Modal
-        isOpen={showCheckoutModal}
-        onClose={() => setShowCheckoutModal(false)}
-        title="Confirm Checkout"
-      >
-        <div className="p-4">
-          <Text as="p" className="text-gray-600 mb-4">
-            Are you sure you want to check out {currentGuestName} from Room {room.number}?
-          </Text>
-          <div className="flex justify-end space-x-2">
-            <Button
-              onClick={() => setShowCheckoutModal(false)}
-              className="px-4 py-2 bg-gray-200 text-gray-800 hover:bg-gray-300"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleCheckout}
-              className="px-4 py-2 bg-warning text-white hover:bg-warning/90"
-            >
-              Confirm Checkout
-            </Button>
-          </div>
-        </div>
-      </Modal>
+</Card>
     </>
+  );
+};
+
+export default RoomCard;
   );
 };
 
