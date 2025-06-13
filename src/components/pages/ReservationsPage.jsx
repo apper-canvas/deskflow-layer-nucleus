@@ -21,7 +21,7 @@ const ReservationsPage = () => {
   const [showNewReservationModal, setShowNewReservationModal] = useState(false);
 const [newReservation, setNewReservation] = useState({
     guestId: '',
-    roomId: '',
+    roomIds: [],
     checkIn: '',
     checkOut: '',
     status: 'confirmed',
@@ -79,9 +79,9 @@ const handleCreateReservation = async (e) => {
 
       setReservations([...reservations, reservation]);
       setShowNewReservationModal(false);
-      setNewReservation({
+setNewReservation({
         guestId: '',
-        roomId: '',
+        roomIds: [],
         checkIn: '',
         checkOut: '',
         status: 'confirmed',
@@ -122,9 +122,10 @@ const handleStatusChange = async (reservationId, newStatus) => {
     }
   };
 
-  const handleEditReservation = (reservation) => {
+const handleEditReservation = (reservation) => {
     setEditReservation({
       ...reservation,
+      roomIds: reservation.roomIds || (reservation.roomId ? [reservation.roomId] : []),
       checkIn: reservation.checkIn.split('T')[0],
       checkOut: reservation.checkOut.split('T')[0]
     });
@@ -167,16 +168,17 @@ const handleDeleteReservation = async (reservationId) => {
   };
 
   const getFilteredReservations = () => {
-    return reservations
+return reservations
       .filter(reservation => {
         const guest = guests.find(g => g.id === reservation.guestId);
-        const room = rooms.find(r => r.id === reservation.roomId);
+        const reservationRoomIds = reservation.roomIds || (reservation.roomId ? [reservation.roomId] : []);
+        const reservationRooms = rooms.filter(r => reservationRoomIds.includes(r.id));
 
         const matchesSearch = !searchTerm ||
           guest?.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           guest?.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           guest?.phone?.includes(searchTerm) ||
-          room?.number?.includes(searchTerm) ||
+          reservationRooms.some(room => room?.number?.includes(searchTerm)) ||
           reservation.id.includes(searchTerm);
 
         const matchesStatus = statusFilter === 'all' || reservation.status === statusFilter;
