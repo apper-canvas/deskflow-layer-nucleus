@@ -11,5 +11,3 @@ export {
   notificationService,
   userService
 }
-
-export { guestService, reservationService, roomService, notificationService, userService };
