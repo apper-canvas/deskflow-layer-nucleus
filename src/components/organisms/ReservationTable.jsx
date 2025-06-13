@@ -94,8 +94,36 @@ const ReservationTable = ({ reservations, guests, rooms, handleStatusChange, onN
                     <td className="px-6 py-4 whitespace-nowrap">
                       <StatusTag status={reservation.status} />
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ${reservation.totalAmount}
+<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <div className="group relative">
+                        <span className="cursor-help">${reservation.totalAmount}</span>
+                        {reservation.paymentBreakdown && (
+                          <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-xs rounded-lg p-3 w-48 z-10">
+                            <div className="space-y-1">
+                              <div className="flex justify-between">
+                                <span>Room Cost:</span>
+                                <span>${reservation.paymentBreakdown.roomCost}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Additional Fees:</span>
+                                <span>${reservation.paymentBreakdown.additionalFees}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Taxes:</span>
+                                <span>${reservation.paymentBreakdown.taxes.toFixed(2)}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Service Fee:</span>
+                                <span>${reservation.paymentBreakdown.serviceFee}</span>
+                              </div>
+                              <div className="border-t border-gray-600 pt-1 flex justify-between font-semibold">
+                                <span>Total:</span>
+                                <span>${reservation.paymentBreakdown.total.toFixed(2)}</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </td>
 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex space-x-2">

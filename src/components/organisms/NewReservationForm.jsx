@@ -32,9 +32,8 @@ const handleInputChange = (e) => {
   const getTotalPrice = () => {
     return getSelectedRooms().reduce((total, room) => total + room.price, 0);
   };
-
-  return (
-    <form onSubmit={onSubmit} className="space-y-4">
+return (
+    <form onSubmit={onSubmit} className="space-y-6">
       <FormField label="Guest" id="guestId">
         <Select name="guestId" value={newReservation.guestId} onChange={handleInputChange} required>
           <option value="">Select a guest</option>
@@ -97,11 +96,105 @@ const handleInputChange = (e) => {
         </FormField>
         <FormField label="Check-Out Date" id="checkOut">
           <Input type="date" name="checkOut" value={newReservation.checkOut} onChange={handleInputChange} required />
-        </FormField>
+</FormField>
       </div>
 
-      <FormField label="Notes (Optional)" id="notes">
-        <TextArea name="notes" value={newReservation.notes} onChange={handleInputChange} placeholder="Any special requests or notes..." />
+      {/* Booking Timeline Section */}
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Booking Timeline</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <FormField label="Check-in Date" required>
+            <Input
+              type="date"
+              name="checkIn"
+              value={newReservation.checkIn}
+              onChange={handleInputChange}
+              min={new Date().toISOString().split('T')[0]}
+              required
+            />
+          </FormField>
+          
+          <FormField label="Check-out Date" required>
+            <Input
+              type="date"
+              name="checkOut"
+              value={newReservation.checkOut}
+              onChange={handleInputChange}
+              min={newReservation.checkIn || new Date().toISOString().split('T')[0]}
+              required
+            />
+          </FormField>
+        </div>
+
+        {/* Timeline Visualization */}
+        {newReservation.checkIn && newReservation.checkOut && (
+          <div className="bg-white p-3 rounded border">
+            <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+              <span>Check-in: {new Date(newReservation.checkIn).toLocaleDateString()}</span>
+              <span>Check-out: {new Date(newReservation.checkOut).toLocaleDateString()}</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-primary h-2 rounded-full" style={{ width: '100%' }}></div>
+            </div>
+            <div className="text-center text-sm text-gray-500 mt-2">
+              {Math.ceil((new Date(newReservation.checkOut) - new Date(newReservation.checkIn)) / (1000 * 60 * 60 * 24))} nights
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Payment Breakdown Section */}
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Payment Breakdown</h3>
+        
+        <div className="space-y-3">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Room Cost ({getSelectedRooms().length} room{getSelectedRooms().length !== 1 ? 's' : ''})</span>
+            <span className="font-medium">${getTotalPrice()}</span>
+          </div>
+          
+          <FormField label="Additional Fees" className="mb-0">
+            <Input
+              type="number"
+              name="additionalFees"
+              value={newReservation.additionalFees || 0}
+              onChange={handleInputChange}
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+            />
+          </FormField>
+          
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Taxes (12%)</span>
+            <span className="font-medium">${(getTotalPrice() * 0.12).toFixed(2)}</span>
+          </div>
+          
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Service Fee</span>
+            <span className="font-medium">$25.00</span>
+          </div>
+          
+          <div className="border-t pt-3">
+            <div className="flex justify-between font-semibold text-lg">
+              <span>Total Amount</span>
+              <span className="text-primary">
+                ${(getTotalPrice() + (parseFloat(newReservation.additionalFees) || 0) + (getTotalPrice() * 0.12) + 25).toFixed(2)}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <FormField label="Special Requests" className="mb-0">
+        <TextArea
+          name="specialRequests"
+          value={newReservation.specialRequests || ''}
+          onChange={handleInputChange}
+          placeholder="Any special requests or notes..."
+          rows={3}
+        />
       </FormField>
 
       <div className="flex space-x-3 pt-4">

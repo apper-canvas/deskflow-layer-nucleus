@@ -23,11 +23,35 @@ class ReservationService {
 
 async create(reservationData) {
     await delay(400);
+    
+    // Calculate payment breakdown
+    const roomCost = parseFloat(reservationData.totalAmount) || 0;
+    const additionalFees = parseFloat(reservationData.additionalFees) || 0;
+    const taxes = roomCost * 0.12;
+    const serviceFee = 25.00;
+    const finalTotal = roomCost + additionalFees + taxes + serviceFee;
+    
     const newReservation = {
       ...reservationData,
       id: Date.now().toString(),
       // Ensure roomIds is always an array
-      roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean)
+      roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean),
+      // Add payment breakdown
+      paymentBreakdown: {
+        roomCost: roomCost,
+        additionalFees: additionalFees,
+        taxes: taxes,
+        serviceFee: serviceFee,
+        total: finalTotal
+      },
+      totalAmount: finalTotal,
+      // Add timeline fields
+      timeline: {
+        checkIn: reservationData.checkIn,
+        checkOut: reservationData.checkOut,
+        nights: reservationData.checkIn && reservationData.checkOut ? 
+          Math.ceil((new Date(reservationData.checkOut) - new Date(reservationData.checkIn)) / (1000 * 60 * 60 * 24)) : 0
+      }
     };
     this.reservations.push(newReservation);
     return { ...newReservation };
@@ -39,10 +63,34 @@ async update(id, reservationData) {
     if (index === -1) {
       throw new Error('Reservation not found');
     }
+    
+    // Calculate payment breakdown for updates
+    const roomCost = parseFloat(reservationData.totalAmount) || 0;
+    const additionalFees = parseFloat(reservationData.additionalFees) || 0;
+    const taxes = roomCost * 0.12;
+    const serviceFee = 25.00;
+    const finalTotal = roomCost + additionalFees + taxes + serviceFee;
+    
     const updatedData = {
       ...reservationData,
       // Ensure roomIds is always an array for updates
-      roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean)
+      roomIds: Array.isArray(reservationData.roomIds) ? reservationData.roomIds : [reservationData.roomId].filter(Boolean),
+      // Update payment breakdown
+      paymentBreakdown: {
+        roomCost: roomCost,
+        additionalFees: additionalFees,
+        taxes: taxes,
+        serviceFee: serviceFee,
+        total: finalTotal
+      },
+      totalAmount: finalTotal,
+      // Update timeline fields
+      timeline: {
+        checkIn: reservationData.checkIn,
+        checkOut: reservationData.checkOut,
+        nights: reservationData.checkIn && reservationData.checkOut ? 
+          Math.ceil((new Date(reservationData.checkOut) - new Date(reservationData.checkIn)) / (1000 * 60 * 60 * 24)) : 0
+      }
     };
     this.reservations[index] = { ...this.reservations[index], ...updatedData };
     return { ...this.reservations[index] };
