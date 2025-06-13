@@ -1,0 +1,89 @@
+import React from 'react';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
+import Text from '@/components/atoms/Text';
+import StatusTag from '@/components/atoms/StatusTag';
+import Card from '@/components/molecules/Card';
+
+const RoomCard = ({ room, currentGuestName, onQuickCheckIn, onStatusChange }) => {
+  return (
+    <Card className="p-4 hover:shadow-md">
+      <div className="flex items-center justify-between mb-3">
+        <Text as="h3" className="font-medium text-gray-900">Room {room.number}</Text>
+        <div className="flex items-center space-x-1">
+          <Text as="span" className="text-xs text-gray-500">Floor {room.floor}</Text>
+        </div>
+      </div>
+
+      <div className="mb-3">
+        <StatusTag status={room.status} />
+      </div>
+
+      <div className="mb-3">
+        <Text as="p" className="text-sm text-gray-600 mb-1">{room.type}</Text>
+        <Text as="p" className="text-sm font-medium text-gray-900">${room.price}/night</Text>
+      </div>
+
+      {currentGuestName && (
+        <div className="mb-3 p-2 bg-gray-50 rounded">
+          <Text as="p" className="text-xs text-gray-600">Current Guest:</Text>
+          <Text as="p" className="text-sm font-medium text-gray-900">
+            {currentGuestName}
+          </Text>
+        </div>
+      )}
+
+      <div className="flex flex-col space-y-2">
+        {room.status === 'available' && (
+          <Button
+            onClick={() => onQuickCheckIn(room.id)}
+            className="w-full bg-primary text-white text-sm hover:bg-primary/90 flex items-center justify-center space-x-1"
+          >
+            <ApperIcon name="UserPlus" className="w-4 h-4" />
+            <span>Quick Check-In</span>
+          </Button>
+        )}
+
+        <div className="flex space-x-1">
+          {room.status === 'occupied' && (
+            <Button
+              onClick={() => onStatusChange(room.id, 'cleaning')}
+              className="flex-1 bg-warning text-white text-xs hover:bg-warning/90"
+            >
+              Check Out
+            </Button>
+          )}
+
+          {room.status === 'cleaning' && (
+            <Button
+              onClick={() => onStatusChange(room.id, 'available')}
+              className="flex-1 bg-success text-white text-xs hover:bg-success/90"
+            >
+              Clean Done
+            </Button>
+          )}
+
+          {room.status === 'available' && (
+            <Button
+              onClick={() => onStatusChange(room.id, 'maintenance')}
+              className="flex-1 bg-gray-500 text-white text-xs hover:bg-gray-600"
+            >
+              Maintenance
+            </Button>
+          )}
+
+          {room.status === 'maintenance' && (
+            <Button
+              onClick={() => onStatusChange(room.id, 'available')}
+              className="flex-1 bg-success text-white text-xs hover:bg-success/90"
+            >
+              Fixed
+            </Button>
+          )}
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+export default RoomCard;

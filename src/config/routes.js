@@ -1,9 +1,9 @@
-import Home from '../pages/Home';
-import Dashboard from '../pages/Dashboard';
-import Reservations from '../pages/Reservations';
-import Rooms from '../pages/Rooms';
-import Guests from '../pages/Guests';
-import NotFound from '../pages/NotFound';
+import HomePage from '@/components/pages/HomePage';
+import DashboardPage from '@/components/pages/DashboardPage';
+import ReservationsPage from '@/components/pages/ReservationsPage';
+import RoomsPage from '@/components/pages/RoomsPage';
+import GuestsPage from '@/components/pages/GuestsPage';
+import NotFoundPage from '@/components/pages/NotFoundPage';
 
 export const routes = {
   home: {
@@ -11,35 +11,35 @@ export const routes = {
     label: 'Home',
     path: '/',
     icon: 'Home',
-    component: Home
+component: HomePage
   },
   dashboard: {
     id: 'dashboard',
     label: 'Dashboard',
     path: '/dashboard',
     icon: 'LayoutDashboard',
-    component: Dashboard
+component: DashboardPage
   },
   reservations: {
     id: 'reservations',
     label: 'Reservations',
     path: '/reservations',
     icon: 'Calendar',
-    component: Reservations
+component: ReservationsPage
   },
   rooms: {
     id: 'rooms',
     label: 'Rooms',
     path: '/rooms',
     icon: 'Bed',
-    component: Rooms
+component: RoomsPage
   },
   guests: {
     id: 'guests',
     label: 'Guests',
     path: '/guests',
     icon: 'Users',
-    component: Guests
+component: GuestsPage
   }
 };
 
