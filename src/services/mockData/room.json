@@ -1,0 +1,102 @@
+[
+  {
+    "id": "1",
+    "number": "101",
+    "type": "Standard King",
+    "floor": 1,
+    "status": "available",
+    "price": 150,
+    "amenities": ["WiFi", "TV", "AC", "Mini Bar"],
+    "currentGuestId": null
+  },
+  {
+    "id": "2",
+    "number": "102",
+    "type": "Deluxe Suite",
+    "floor": 1,
+    "status": "occupied",
+    "price": 240,
+    "amenities": ["WiFi", "TV", "AC", "Mini Bar", "Balcony", "Jacuzzi"],
+    "currentGuestId": "5"
+  },
+  {
+    "id": "3",
+    "number": "201",
+    "type": "Business King",
+    "floor": 2,
+    "status": "occupied",
+    "price": 140,
+    "amenities": ["WiFi", "TV", "AC", "Work Desk", "Business Center Access"],
+    "currentGuestId": "2"
+  },
+  {
+    "id": "4",
+    "number": "202",
+    "type": "Standard Queen",
+    "floor": 2,
+    "status": "cleaning",
+    "price": 110,
+    "amenities": ["WiFi", "TV", "AC"],
+    "currentGuestId": null
+  },
+  {
+    "id": "5",
+    "number": "203",
+    "type": "Pet-Friendly Room",
+    "floor": 2,
+    "status": "available",
+    "price": 120,
+    "amenities": ["WiFi", "TV", "AC", "Pet Bed", "Pet Bowls"],
+    "currentGuestId": null
+  },
+  {
+    "id": "6",
+    "number": "301",
+    "type": "Executive Suite",
+    "floor": 3,
+    "status": "available",
+    "price": 320,
+    "amenities": ["WiFi", "TV", "AC", "Mini Bar", "City View", "Executive Lounge Access"],
+    "currentGuestId": null
+  },
+  {
+    "id": "7",
+    "number": "302",
+    "type": "Business Double",
+    "floor": 3,
+    "status": "available",
+    "price": 170,
+    "amenities": ["WiFi", "TV", "AC", "Work Desk", "Conference Room Access"],
+    "currentGuestId": null
+  },
+  {
+    "id": "8",
+    "number": "303",
+    "type": "Standard Twin",
+    "floor": 3,
+    "status": "maintenance",
+    "price": 130,
+    "amenities": ["WiFi", "TV", "AC"],
+    "currentGuestId": null
+  },
+  {
+    "id": "9",
+    "number": "401",
+    "type": "Penthouse Suite",
+    "floor": 4,
+    "status": "available",
+    "price": 450,
+    "amenities": ["WiFi", "TV", "AC", "Mini Bar", "Balcony", "Jacuzzi", "City View", "Butler Service"],
+    "currentGuestId": null
+  },
+  {
+    "id": "10",
+    "number": "402",
+    "type": "Family Room",
+    "floor": 4,
+    "status": "cleaning",
+    "price": 190,
+    "amenities": ["WiFi", "TV", "AC", "Bunk Beds", "Kitchenette"],
+    "currentGuestId": null
+  }
+]

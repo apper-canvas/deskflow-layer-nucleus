@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "guestId": "1",
+    "roomId": "1",
+    "checkIn": "2024-01-15",
+    "checkOut": "2024-01-18",
+    "status": "checked-out",
+    "totalAmount": 450,
+    "notes": "VIP guest - champagne on arrival"
+  },
+  {
+    "id": "2",
+    "guestId": "2",
+    "roomId": "3",
+    "checkIn": "2024-01-20",
+    "checkOut": "2024-01-22",
+    "status": "checked-in",
+    "totalAmount": 280,
+    "notes": "Business traveler - early check-in requested"
+  },
+  {
+    "id": "3",
+    "guestId": "3",
+    "roomId": "5",
+    "checkIn": "2024-01-22",
+    "checkOut": "2024-01-25",
+    "status": "confirmed",
+    "totalAmount": 240,
+    "notes": "Traveling with small dog - pet fee included"
+  },
+  {
+    "id": "4",
+    "guestId": "4",
+    "roomId": "7",
+    "checkIn": "2024-01-25",
+    "checkOut": "2024-01-27",
+    "status": "confirmed",
+    "totalAmount": 340,
+    "notes": "Corporate booking - invoice to company"
+  },
+  {
+    "id": "5",
+    "guestId": "5",
+    "roomId": "2",
+    "checkIn": "2024-01-28",
+    "checkOut": "2024-02-02",
+    "status": "confirmed",
+    "totalAmount": 1200,
+    "notes": "Honeymoon suite - special amenities requested"
+  },
+  {
+    "id": "6",
+    "guestId": "1",
+    "roomId": "4",
+    "checkIn": "2024-02-05",
+    "checkOut": "2024-02-07",
+    "status": "confirmed",
+    "totalAmount": 220,
+    "notes": "Return guest - preferred room type"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "firstName": "Emily",
+    "lastName": "Johnson",
+    "email": "emily.johnson@email.com",
+    "phone": "+1 (555) 123-4567",
+    "address": {
+      "street": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA"
+    },
+    "idDocument": "DL123456789",
+    "preferences": ["Non-smoking", "High floor", "City view"]
+  },
+  {
+    "id": "2",
+    "firstName": "Michael",
+    "lastName": "Chen",
+    "email": "m.chen@email.com",
+    "phone": "+1 (555) 234-5678",
+    "address": {
+      "street": "456 Oak Avenue",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94102",
+      "country": "USA"
+    },
+    "idDocument": "PP987654321",
+    "preferences": ["Executive floor", "Late checkout", "Quiet room"]
+  },
+  {
+    "id": "3",
+    "firstName": "Sarah",
+    "lastName": "Williams",
+    "email": "sarah.williams@email.com",
+    "phone": "+1 (555) 345-6789",
+    "address": {
+      "street": "789 Pine Street",
+      "city": "Seattle",
+      "state": "WA",
+      "zipCode": "98101",
+      "country": "USA"
+    },
+    "idDocument": "DL456789123",
+    "preferences": ["Pet-friendly", "Ground floor", "Near elevator"]
+  },
+  {
+    "id": "4",
+    "firstName": "David",
+    "lastName": "Brown",
+    "email": "d.brown@email.com",
+    "phone": "+1 (555) 456-7890",
+    "address": {
+      "street": "321 Elm Street",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60601",
+      "country": "USA"
+    },
+    "idDocument": "DL789123456",
+    "preferences": ["Business center access", "Gym access", "Airport shuttle"]
+  },
+  {
+    "id": "5",
+    "firstName": "Lisa",
+    "lastName": "Martinez",
+    "email": "lisa.martinez@email.com",
+    "phone": "+1 (555) 567-8901",
+    "address": {
+      "street": "654 Maple Drive",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33101",
+      "country": "USA"
+    },
+    "idDocument": "PP123789456",
+    "preferences": ["Ocean view", "Balcony", "Room service", "Spa access"]
+  }
+]
