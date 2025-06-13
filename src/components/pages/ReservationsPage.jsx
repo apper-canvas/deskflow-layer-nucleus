@@ -130,7 +130,7 @@ const handleStatusChange = async (reservationId, newStatus) => {
     }
   };
 
-  const handleDeleteReservation = async (reservationId) => {
+const handleDeleteReservation = async (reservationId) => {
     if (!confirm('Are you sure you want to delete this reservation?')) return;
     
     try {
@@ -140,6 +140,7 @@ const handleStatusChange = async (reservationId, newStatus) => {
     } catch (err) {
       toast.error('Failed to delete reservation');
     }
+  };
 
   const getFilteredReservations = () => {
     return reservations
