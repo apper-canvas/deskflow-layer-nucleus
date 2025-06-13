@@ -11,23 +11,11 @@ const handleInputChange = (e) => {
     setNewReservation(prev => ({ ...prev, [name]: value }));
   };
 
-const handleRoomSelection = (value) => {
-    // For multi-select, value will be a comma-separated string or array
-    // Handle null, undefined, or non-string/non-array values safely
-    let selectedIds = [];
-    
-    if (Array.isArray(value)) {
-      selectedIds = value;
-    } else if (value && typeof value === 'string') {
-      selectedIds = value.split(',').filter(id => id.trim());
-    } else if (value) {
-      // Handle other value types by converting to string first
-      selectedIds = String(value).split(',').filter(id => id.trim());
-    }
-    
+const handleRoomSelection = (selectedIds) => {
+    // selectedIds is now an array from the updated Select component
     setNewReservation(prev => ({
       ...prev,
-      roomIds: selectedIds
+      roomIds: selectedIds || []
     }));
   };
 
