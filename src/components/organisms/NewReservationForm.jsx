@@ -13,9 +13,17 @@ const handleInputChange = (e) => {
 
 const handleRoomSelection = (value) => {
     // For multi-select, value will be a comma-separated string or array
-    const selectedIds = Array.isArray(value) 
-      ? value 
-      : value.split(',').filter(id => id.trim());
+    // Handle null, undefined, or non-string/non-array values safely
+    let selectedIds = [];
+    
+    if (Array.isArray(value)) {
+      selectedIds = value;
+    } else if (value && typeof value === 'string') {
+      selectedIds = value.split(',').filter(id => id.trim());
+    } else if (value) {
+      // Handle other value types by converting to string first
+      selectedIds = String(value).split(',').filter(id => id.trim());
+    }
     
     setNewReservation(prev => ({
       ...prev,
@@ -80,13 +88,13 @@ return (
         )}
       </FormField>
 
-      <div className="grid grid-cols-2 gap-4">
+<div className="grid grid-cols-2 gap-4">
         <FormField label="Check-In Date" id="checkIn">
           <Input type="date" name="checkIn" value={newReservation.checkIn} onChange={handleInputChange} required />
         </FormField>
         <FormField label="Check-Out Date" id="checkOut">
           <Input type="date" name="checkOut" value={newReservation.checkOut} onChange={handleInputChange} required />
-</FormField>
+        </FormField>
       </div>
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
