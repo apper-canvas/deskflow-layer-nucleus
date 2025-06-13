@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import ApperIcon from '@/components/ApperIcon';
 import Text from '@/components/atoms/Text';
@@ -6,10 +6,29 @@ import AppNavLink from '@/components/molecules/AppNavLink';
 import NotificationsDropdown from '@/components/organisms/NotificationsDropdown';
 import ProfileDropdown from '@/components/organisms/ProfileDropdown';
 import { routeArray } from '@/config/routes';
+import { notificationService } from '@/services';
 
 const AppHeader = ({ onMobileMenuToggle, mobileMenuOpen }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        setLoading(true);
+        const data = await notificationService.getAll();
+        setNotifications(data);
+      } catch (error) {
+        console.error('Failed to fetch notifications:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
 
   const handleNotificationToggle = () => {
     setShowNotifications(prev => !prev);
@@ -26,12 +45,16 @@ const AppHeader = ({ onMobileMenuToggle, mobileMenuOpen }) => {
     setShowProfile(false);
   };
 
-  // Dummy notifications data for now
-  const notifications = [
-    { id: 1, type: 'info', message: 'Room 205 checkout completed', time: '2 min ago' },
-    { id: 2, type: 'warning', message: 'Housekeeping needed for floor 3', time: '15 min ago' },
-    { id: 3, type: 'success', message: 'VIP guest arrived early', time: '30 min ago' }
-  ];
+  const handleMarkAsRead = async (id) => {
+    try {
+      await notificationService.markAsRead(id);
+      setNotifications(prev => 
+        prev.map(n => n.id === id ? { ...n, read: true } : n)
+      );
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error);
+    }
+  };
 
   return (
     <header className="flex-shrink-0 bg-white border-b border-gray-200 shadow-sm z-40">
@@ -64,10 +87,12 @@ const AppHeader = ({ onMobileMenuToggle, mobileMenuOpen }) => {
         {/* Right Side Actions */}
         <div className="flex items-center space-x-3">
           {/* Notifications */}
-          <NotificationsDropdown
+<NotificationsDropdown
             notifications={notifications}
+            loading={loading}
             showNotifications={showNotifications}
             onToggle={handleNotificationToggle}
+            onMarkAsRead={handleMarkAsRead}
           />
 
           {/* Profile Menu */}

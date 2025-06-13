@@ -1,0 +1,94 @@
+[
+  {
+    "id": 1,
+    "type": "checkout",
+    "priority": "high",
+    "title": "Upcoming Checkout",
+    "message": "Room 205 checkout in 30 minutes - Guest: Sarah Johnson",
+    "time": "2 min ago",
+    "read": false,
+    "roomNumber": "205",
+    "guestName": "Sarah Johnson",
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "id": 2,
+    "type": "cleaning",
+    "priority": "medium",
+    "title": "Cleaning Required",
+    "message": "Room 312 needs immediate cleaning - Guest checked out",
+    "time": "15 min ago",
+    "read": false,
+    "roomNumber": "312",
+    "createdAt": "2024-01-15T10:15:00Z"
+  },
+  {
+    "id": 3,
+    "type": "payment",
+    "priority": "high",
+    "title": "Payment Issue",
+    "message": "Credit card declined for Room 108 - Michael Chen",
+    "time": "30 min ago",
+    "read": false,
+    "roomNumber": "108",
+    "guestName": "Michael Chen",
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 4,
+    "type": "maintenance",
+    "priority": "medium",
+    "title": "Maintenance Request",
+    "message": "Air conditioning issue reported in Room 450",
+    "time": "1 hour ago",
+    "read": false,
+    "roomNumber": "450",
+    "createdAt": "2024-01-15T09:30:00Z"
+  },
+  {
+    "id": 5,
+    "type": "checkin",
+    "priority": "low",
+    "title": "Early Check-in",
+    "message": "VIP guest Emma Wilson arrived early for Room 501",
+    "time": "2 hours ago",
+    "read": true,
+    "roomNumber": "501",
+    "guestName": "Emma Wilson",
+    "createdAt": "2024-01-15T08:30:00Z"
+  },
+  {
+    "id": 6,
+    "type": "cleaning",
+    "priority": "low",
+    "title": "Cleaning Complete",
+    "message": "Room 225 cleaning completed and ready for next guest",
+    "time": "3 hours ago",
+    "read": true,
+    "roomNumber": "225",
+    "createdAt": "2024-01-15T07:30:00Z"
+  },
+  {
+    "id": 7,
+    "type": "checkout",
+    "priority": "medium",
+    "title": "Late Checkout",
+    "message": "Room 178 checkout delayed - Guest requested extension",
+    "time": "4 hours ago",
+    "read": true,
+    "roomNumber": "178",
+    "createdAt": "2024-01-15T06:30:00Z"
+  },
+  {
+    "id": 8,
+    "type": "payment",
+    "priority": "low",
+    "title": "Payment Processed",
+    "message": "Outstanding balance paid for Room 333 - David Kim",
+    "time": "5 hours ago",
+    "read": true,
+    "roomNumber": "333",
+    "guestName": "David Kim",
+    "createdAt": "2024-01-15T05:30:00Z"
+  }
+]
