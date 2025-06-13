@@ -1,4 +1,8 @@
-import { notifications } from '../mockData/notification.json';
+import notifications from '../mockData/notification.json';
+
+class NotificationService {
+  constructor() {
+    this.notifications = [...notifications];
 
 class NotificationService {
   constructor() {
