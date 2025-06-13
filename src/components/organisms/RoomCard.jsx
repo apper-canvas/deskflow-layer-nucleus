@@ -13,10 +13,6 @@ const [showCheckoutModal, setShowCheckoutModal] = useState(false);
     onStatusChange(room.id, 'cleaning');
   };
 
-  const handleCheckoutClick = () => {
-    setShowCheckoutModal(true);
-  };
-
   const getGuestTooltip = (guest) => {
     if (!guest) return '';
     
@@ -73,9 +69,9 @@ const [showCheckoutModal, setShowCheckoutModal] = useState(false);
           )}
 
           <div className="flex space-x-1">
-            {room.status === 'occupied' && (
+{room.status === 'occupied' && (
               <Button
-                onClick={() => setShowCheckoutModal(true)}
+                onClick={() => room.status === 'occupied' && setShowCheckoutModal(true)}
                 className="flex-1 bg-warning text-white text-xs hover:bg-warning/90"
               >
                 Check Out
