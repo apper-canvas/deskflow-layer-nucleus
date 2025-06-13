@@ -3,10 +3,6 @@ import notifications from '../mockData/notification.json';
 class NotificationService {
   constructor() {
     this.notifications = [...notifications];
-
-class NotificationService {
-  constructor() {
-    this.notifications = [...notifications];
   }
 
   async getAll() {
