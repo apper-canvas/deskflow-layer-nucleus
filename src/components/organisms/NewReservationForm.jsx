@@ -145,7 +145,17 @@ return (
             step="0.01"
           />
         </FormField>
-      </div>
+</div>
+
+      <FormField label="Total Amount ($)">
+        <Input
+          type="text"
+          value={`$${getTotalPrice().toFixed(2)}`}
+          readOnly
+          className="bg-gray-50 font-semibold text-gray-900"
+          placeholder="Calculated automatically"
+        />
+      </FormField>
 
       <FormField label="Extra Charges Description">
         <TextArea
