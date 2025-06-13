@@ -52,4 +52,5 @@ class GuestService {
   }
 }
 
+export const guestService = new GuestService();
 export default new GuestService();
