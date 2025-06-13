@@ -19,7 +19,7 @@ const ReservationsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [showNewReservationModal, setShowNewReservationModal] = useState(false);
-  const [newReservation, setNewReservation] = useState({
+const [newReservation, setNewReservation] = useState({
     guestId: '',
     roomId: '',
     checkIn: '',
@@ -27,6 +27,8 @@ const ReservationsPage = () => {
     status: 'confirmed',
     notes: ''
   });
+  const [editReservation, setEditReservation] = useState(null);
+  const [showEditReservationModal, setShowEditReservationModal] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -77,8 +79,7 @@ const ReservationsPage = () => {
       toast.error('Failed to create reservation');
     }
   };
-
-  const handleStatusChange = async (reservationId, newStatus) => {
+const handleStatusChange = async (reservationId, newStatus) => {
     try {
       const reservation = reservations.find(r => r.id === reservationId);
       if (!reservation) return;
@@ -96,6 +97,49 @@ const ReservationsPage = () => {
       toast.error('Failed to update reservation status');
     }
   };
+
+  const handleEditReservation = (reservation) => {
+    setEditReservation({
+      ...reservation,
+      checkIn: reservation.checkIn.split('T')[0],
+      checkOut: reservation.checkOut.split('T')[0]
+    });
+    setShowEditReservationModal(true);
+  };
+
+  const handleUpdateReservation = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const updatedReservation = await reservationService.update(editReservation.id, {
+        ...editReservation,
+        checkIn: new Date(editReservation.checkIn).toISOString(),
+        checkOut: new Date(editReservation.checkOut).toISOString()
+      });
+
+      setReservations(reservations.map(r =>
+        r.id === editReservation.id ? updatedReservation : r
+      ));
+      toast.success('Reservation updated successfully');
+      setShowEditReservationModal(false);
+      setEditReservation(null);
+    } catch (err) {
+      toast.error('Failed to update reservation');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteReservation = async (reservationId) => {
+    if (!confirm('Are you sure you want to delete this reservation?')) return;
+    
+    try {
+      await reservationService.delete(reservationId);
+      setReservations(reservations.filter(r => r.id !== reservationId));
+      toast.success('Reservation deleted successfully');
+    } catch (err) {
+      toast.error('Failed to delete reservation');
+    }
 
   const getFilteredReservations = () => {
     return reservations
@@ -181,17 +225,19 @@ const ReservationsPage = () => {
         />
       </div>
 
-      <ReservationTable
+<ReservationTable
         reservations={filteredReservations}
         guests={guests}
         rooms={rooms}
         handleStatusChange={handleStatusChange}
         onNewReservationClick={() => setShowNewReservationModal(true)}
+        onEditReservation={handleEditReservation}
+        onDeleteReservation={handleDeleteReservation}
         searchTerm={searchTerm}
         statusFilter={statusFilter}
       />
 
-      {showNewReservationModal && (
+{showNewReservationModal && (
         <Modal title="New Reservation" onClose={() => setShowNewReservationModal(false)} className="max-w-md">
           <NewReservationForm
             newReservation={newReservation}
@@ -200,6 +246,20 @@ const ReservationsPage = () => {
             rooms={rooms}
             onSubmit={handleCreateReservation}
             onClose={() => setShowNewReservationModal(false)}
+          />
+        </Modal>
+      )}
+
+      {showEditReservationModal && (
+        <Modal title="Edit Reservation" onClose={() => setShowEditReservationModal(false)} className="max-w-md">
+          <NewReservationForm
+            newReservation={editReservation}
+            setNewReservation={setEditReservation}
+            guests={guests}
+            rooms={rooms}
+            onSubmit={handleUpdateReservation}
+            onClose={() => setShowEditReservationModal(false)}
+            isEdit={true}
           />
         </Modal>
       )}

@@ -19,7 +19,9 @@ const GuestsPage = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showNewGuestModal, setShowNewGuestModal] = useState(false);
-  const [selectedGuest, setSelectedGuest] = useState(null);
+const [selectedGuest, setSelectedGuest] = useState(null);
+  const [editGuest, setEditGuest] = useState(null);
+  const [showEditGuestModal, setShowEditGuestModal] = useState(false);
   const [newGuest, setNewGuest] = useState({
     firstName: '',
     lastName: '',
@@ -89,8 +91,41 @@ const GuestsPage = () => {
     } catch (err) {
       toast.error('Failed to create guest');
     }
+};
+
+  const handleEditGuest = (guest) => {
+    setEditGuest({ ...guest });
+    setShowEditGuestModal(true);
   };
 
+  const handleUpdateGuest = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const updatedGuest = await guestService.update(editGuest.id, editGuest);
+      setGuests(guests.map(g => g.id === editGuest.id ? updatedGuest : g));
+      toast.success('Guest updated successfully');
+      setShowEditGuestModal(false);
+      setEditGuest(null);
+    } catch (err) {
+      toast.error('Failed to update guest');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteGuest = async (guestId) => {
+    if (!confirm('Are you sure you want to delete this guest?')) return;
+    
+    try {
+      await guestService.delete(guestId);
+      setGuests(guests.filter(g => g.id !== guestId));
+      toast.success('Guest deleted successfully');
+      setSelectedGuest(null);
+    } catch (err) {
+      toast.error('Failed to delete guest');
+    }
+  };
   const getFilteredGuests = () => {
     return guests.filter(guest => {
       const matchesSearch = !searchTerm ||
@@ -198,11 +233,27 @@ const GuestsPage = () => {
       )}
 
       {selectedGuest && (
-        <Modal title="Guest Details" onClose={() => setSelectedGuest(null)} className="max-w-2xl">
+<Modal title="Guest Details" onClose={() => setSelectedGuest(null)} className="max-w-2xl">
           <GuestDetail
             guest={selectedGuest}
             guestHistory={getGuestHistory(selectedGuest.id)}
-            rooms={rooms} // Pass rooms down
+            rooms={rooms}
+            onEdit={handleEditGuest}
+            onDelete={handleDeleteGuest}
+          />
+        </Modal>
+        </Modal>
+      )}
+)}
+
+      {showEditGuestModal && (
+        <Modal title="Edit Guest" onClose={() => setShowEditGuestModal(false)} className="max-w-md">
+          <AddGuestForm
+            newGuest={editGuest}
+            setNewGuest={setEditGuest}
+            onSubmit={handleUpdateGuest}
+            onClose={() => setShowEditGuestModal(false)}
+            isEdit={true}
           />
         </Modal>
       )}

@@ -5,7 +5,7 @@ import Text from '@/components/atoms/Text';
 import Button from '@/components/atoms/Button';
 import StatusTag from '@/components/atoms/StatusTag';
 
-const ReservationTable = ({ reservations, guests, rooms, handleStatusChange, onNewReservationClick, searchTerm, statusFilter }) => {
+const ReservationTable = ({ reservations, guests, rooms, handleStatusChange, onNewReservationClick, onEditReservation, onDeleteReservation, searchTerm, statusFilter }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       {reservations.length === 0 ? (
@@ -97,8 +97,20 @@ const ReservationTable = ({ reservations, guests, rooms, handleStatusChange, onN
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       ${reservation.totalAmount}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex space-x-2">
+                        <Button
+                          onClick={() => onEditReservation(reservation)}
+                          className="text-primary hover:text-primary/80 font-medium p-0 bg-transparent hover:bg-transparent"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => onDeleteReservation(reservation.id)}
+                          className="text-error hover:text-error/80 font-medium p-0 bg-transparent hover:bg-transparent"
+                        >
+                          Delete
+                        </Button>
                         {reservation.status === 'confirmed' && (
                           <Button
                             onClick={() => handleStatusChange(reservation.id, 'checked-in')}

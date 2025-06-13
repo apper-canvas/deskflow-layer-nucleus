@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@/components/atoms/Button';
 import ApperIcon from '@/components/ApperIcon';
 import Text from '@/components/atoms/Text';
 import StatusTag from '@/components/atoms/StatusTag';
@@ -11,12 +12,28 @@ const GuestDetail = ({ guest, guestHistory, rooms }) => {
           <Text as="span" className="text-lg font-medium text-primary">
             {guest.firstName[0]}{guest.lastName[0]}
           </Text>
-        </div>
-        <div>
-          <Text as="h3" className="text-xl font-medium text-gray-900">
-            {guest.firstName} {guest.lastName}
-          </Text>
-          <Text as="p" className="text-gray-500">{guest.email}</Text>
+</div>
+        <div className="flex items-center justify-between">
+          <div>
+            <Text as="h3" className="text-xl font-medium text-gray-900">
+              {guest.firstName} {guest.lastName}
+            </Text>
+            <Text as="p" className="text-gray-500">{guest.email}</Text>
+          </div>
+          <div className="flex space-x-2">
+            <Button
+              onClick={() => onEdit(guest)}
+              className="text-primary hover:text-primary/80 font-medium p-0 bg-transparent hover:bg-transparent"
+            >
+              Edit
+            </Button>
+            <Button
+              onClick={() => onDelete(guest.id)}
+              className="text-error hover:text-error/80 font-medium p-0 bg-transparent hover:bg-transparent"
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
 

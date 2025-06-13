@@ -4,7 +4,7 @@ import FormField from '@/components/molecules/FormField';
 import Input from '@/components/atoms/Input';
 import TextArea from '@/components/atoms/TextArea';
 
-const AddGuestForm = ({ newGuest, setNewGuest, onSubmit, onClose }) => {
+const AddGuestForm = ({ newGuest, setNewGuest, onSubmit, onClose, isEdit = false }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith('address.')) {
@@ -65,10 +65,11 @@ const AddGuestForm = ({ newGuest, setNewGuest, onSubmit, onClose }) => {
         >
           Cancel
         </Button>
-        <Button
+<Button
           type="submit"
           className="flex-1 bg-primary text-white hover:bg-primary/90"
         >
+          {isEdit ? 'Update Guest' : 'Add Guest'}
           Add Guest
         </Button>
       </div>

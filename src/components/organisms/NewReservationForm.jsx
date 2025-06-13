@@ -5,7 +5,7 @@ import Select from '@/components/atoms/Select';
 import Input from '@/components/atoms/Input';
 import TextArea from '@/components/atoms/TextArea';
 
-const NewReservationForm = ({ newReservation, setNewReservation, guests, rooms, onSubmit, onClose }) => {
+const NewReservationForm = ({ newReservation, setNewReservation, guests, rooms, onSubmit, onClose, isEdit = false }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewReservation(prev => ({ ...prev, [name]: value }));
@@ -57,10 +57,10 @@ const NewReservationForm = ({ newReservation, setNewReservation, guests, rooms, 
           Cancel
         </Button>
         <Button
-          type="submit"
+type="submit"
           className="flex-1 bg-primary text-white hover:bg-primary/90"
         >
-          Create Reservation
+          {isEdit ? 'Update Reservation' : 'Create Reservation'}
         </Button>
       </div>
     </form>
