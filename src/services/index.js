@@ -1,7 +1,15 @@
-import { guestService } from './api/guestService';
-import { reservationService } from './api/reservationService';
-import { roomService } from './api/roomService';
-import { notificationService } from './api/notificationService';
-import { userService } from './api/userService';
+import guestService from '@/services/api/guestService'
+import reservationService from '@/services/api/reservationService'
+import roomService from '@/services/api/roomService'
+import notificationService from '@/services/api/notificationService'
+import userService from '@/services/api/userService'
+
+export {
+  guestService,
+  reservationService,
+  roomService,
+  notificationService,
+  userService
+}
 
 export { guestService, reservationService, roomService, notificationService, userService };
